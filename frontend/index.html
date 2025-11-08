@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GARS - Gestão Ambiental de Resíduos Sólidos ♻️</title>
+    
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="header">
+        <div class="container">
+            <h1 class="title">
+                <span class="icon">♻️</span>
+                GARS - Gestão Ambiental de Resíduos Sólidos
+            </h1>
+            <p class="subtitle">Monitoramento Inteligente em Tempo Real</p>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <div class="container">
+            <div class="dashboard-grid">
+                <!-- Coluna Esquerda: Gráfico e Dados -->
+                <div class="left-panel">
+                    <!-- Indicador Atual -->
+                    <div class="status-card" id="statusCard">
+                        <div class="status-header">
+                            <h2>Status Atual</h2>
+                            <div class="status-badge" id="statusBadge">
+                                <span class="badge-dot"></span>
+                                <span class="badge-text">Carregando...</span>
+                            </div>
+                        </div>
+                        <div class="status-content">
+                            <div class="nivel-display">
+                                <span class="nivel-label">Nível de Resíduos</span>
+                                <span class="nivel-value" id="nivelValue">--</span>
+                                <span class="nivel-unit">/2</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+                        <div class="last-update" id="lastUpdate">
+                            Última atualização: --
+                        </div>
+                    </div>
+
+                    <!-- Gráfico -->
+                    <div class="chart-card">
+                        <h2>Histórico de Níveis</h2>
+                        <canvas id="nivelChart"></canvas>
+                    </div>
+
+                    <!-- Informações Adicionais -->
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <div class="info-icon">📊</div>
+                            <div class="info-content">
+                                <h3>Total de Leituras</h3>
+                                <p id="totalLeituras">--</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon">⚠️</div>
+                            <div class="info-content">
+                                <h3>Alertas Críticos</h3>
+                                <p id="alertasCriticos">--</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon">🔄</div>
+                            <div class="info-content">
+                                <h3>Atualização</h3>
+                                <p>A cada 10s</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Lixeira 3D -->
+                <div class="right-panel">
+                    <div class="trash-card">
+                        <h2>Visualização 3D</h2>
+                        <div id="trashContainer" class="trash-container"></div>
+                        <div class="trash-legend">
+                            <div class="legend-item">
+                                <span class="legend-color normal"></span>
+                                <span>0 - Vazia (> 25cm livre)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color atencao"></span>
+                                <span>1 - Meio Cheia</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color critico"></span>
+                                <span>2 - Cheia</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 GARS - Sistema de Gestão Ambiental de Resíduos Sólidos</p>
+            <p class="connection-status">
+                <span class="status-dot" id="connectionDot"></span>
+                <span id="connectionStatus">Conectando...</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

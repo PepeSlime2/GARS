@@ -1,0 +1,638 @@
+/* ========================================
+   RESET E VARIÁVEIS GLOBAIS
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Cores principais */
+    --verde-principal: #4CAF50;
+    --verde-escuro: #388E3C;
+    --verde-claro: #81C784;
+    --amarelo: #FFC107;
+    --amarelo-escuro: #FFA000;
+    --vermelho: #F44336;
+    --vermelho-escuro: #D32F2F;
+    
+    /* Cores neutras */
+    --branco: #FFFFFF;
+    --cinza-claro: #F5F5F5;
+    --cinza-medio: #E0E0E0;
+    --cinza-escuro: #757575;
+    --texto-escuro: #212121;
+    
+    /* Sombras */
+    --sombra-leve: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --sombra-media: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --sombra-forte: 0 8px 16px rgba(0, 0, 0, 0.2);
+    
+    /* Transições */
+    --transicao: all 0.3s ease;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+    color: var(--texto-escuro);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animação de fundo com bolhas flutuantes */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    opacity: 0.1;
+    z-index: 0;
+    animation: float 20s infinite ease-in-out;
+}
+
+body::before {
+    width: 300px;
+    height: 300px;
+    background: var(--verde-principal);
+    top: -100px;
+    left: -100px;
+    animation-delay: 0s;
+}
+
+body::after {
+    width: 400px;
+    height: 400px;
+    background: var(--verde-escuro);
+    bottom: -150px;
+    right: -150px;
+    animation-delay: 5s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(50px, -50px) scale(1.1); }
+    66% { transform: translate(-30px, 30px) scale(0.9); }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Partículas flutuantes */
+.floating-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    animation: float-up 20s infinite linear;
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* ========================================
+   CABEÇALHO
+   ======================================== */
+.header {
+    background: linear-gradient(135deg, var(--verde-principal) 0%, var(--verde-escuro) 100%);
+    color: var(--branco);
+    padding: 30px 0;
+    box-shadow: var(--sombra-media);
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon {
+    font-size: 3rem;
+    animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    font-weight: 300;
+    opacity: 0.95;
+}
+
+/* ========================================
+   CONTEÚDO PRINCIPAL
+   ======================================== */
+.main-content {
+    flex: 1;
+    padding: 40px 0;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 500px;
+    gap: 30px;
+}
+
+/* ========================================
+   CARDS GERAIS
+   ======================================== */
+.status-card,
+.chart-card,
+.trash-card,
+.info-card {
+    background: var(--branco);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: var(--sombra-media);
+    transition: var(--transicao);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efeito de brilho nos cards */
+.status-card::before,
+.chart-card::before,
+.trash-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: shine 8s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.status-card:hover,
+.chart-card:hover,
+.trash-card:hover {
+    box-shadow: var(--sombra-forte);
+    transform: translateY(-4px) scale(1.01);
+}
+
+.status-card h2,
+.chart-card h2,
+.trash-card h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--verde-escuro);
+}
+
+/* ========================================
+   PAINEL ESQUERDO
+   ======================================== */
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Status Card */
+.status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transicao);
+}
+
+.badge-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.status-badge.normal {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--verde-escuro);
+}
+
+.status-badge.normal .badge-dot {
+    background: var(--verde-principal);
+}
+
+.status-badge.atencao {
+    background: rgba(255, 193, 7, 0.1);
+    color: var(--amarelo-escuro);
+}
+
+.status-badge.atencao .badge-dot {
+    background: var(--amarelo);
+}
+
+.status-badge.critico {
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--vermelho-escuro);
+    animation: shake 0.5s infinite;
+}
+
+.status-badge.critico .badge-dot {
+    background: var(--vermelho);
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+/* Nível Display */
+.nivel-display {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.nivel-label {
+    font-size: 1rem;
+    color: var(--cinza-escuro);
+    font-weight: 400;
+}
+
+.nivel-value {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--verde-principal);
+    transition: var(--transicao);
+}
+
+.nivel-value.atencao {
+    color: var(--amarelo);
+}
+
+.nivel-value.critico {
+    color: var(--vermelho);
+}
+
+.nivel-unit {
+    font-size: 1.5rem;
+    color: var(--cinza-escuro);
+}
+
+/* Barra de Progresso */
+.progress-bar {
+    width: 100%;
+    height: 24px;
+    background: var(--cinza-medio);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 20px 0;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--verde-principal), var(--verde-claro));
+    border-radius: 12px;
+    transition: width 0.5s ease, background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efeito de onda na barra de progresso */
+.progress-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: wave 2s infinite;
+}
+
+@keyframes wave {
+    0% { left: -100%; }
+    100% { left: 200%; }
+}
+
+.progress-fill.atencao {
+    background: linear-gradient(90deg, var(--amarelo), #FFD54F);
+}
+
+.progress-fill.critico {
+    background: linear-gradient(90deg, var(--vermelho), #EF5350);
+    animation: pulse-bar 1s infinite;
+}
+
+@keyframes pulse-bar {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.last-update {
+    font-size: 0.85rem;
+    color: var(--cinza-escuro);
+    margin-top: 15px;
+    font-style: italic;
+}
+
+/* Gráfico */
+.chart-card canvas {
+    max-height: 300px;
+}
+
+/* Info Cards */
+.info-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.info-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    transition: var(--transicao);
+    border-left: 4px solid transparent;
+}
+
+.info-card:hover {
+    transform: translateX(5px);
+    border-left-color: var(--verde-principal);
+    box-shadow: var(--sombra-forte);
+}
+
+.info-icon {
+    font-size: 2.5rem;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.info-card:nth-child(1) .info-icon { animation-delay: 0s; }
+.info-card:nth-child(2) .info-icon { animation-delay: 0.3s; }
+.info-card:nth-child(3) .info-icon { animation-delay: 0.6s; }
+
+.info-content h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cinza-escuro);
+    margin-bottom: 5px;
+}
+
+.info-content p {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--verde-escuro);
+}
+
+/* ========================================
+   PAINEL DIREITO - LIXEIRA 3D
+   ======================================== */
+.right-panel {
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.trash-container {
+    width: 100%;
+    height: 500px;
+    background: linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.trash-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+.legend-color {
+    width: 30px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.legend-color.normal {
+    background: var(--verde-principal);
+}
+
+.legend-color.atencao {
+    background: var(--amarelo);
+}
+
+.legend-color.critico {
+    background: var(--vermelho);
+}
+
+/* ========================================
+   RODAPÉ
+   ======================================== */
+.footer {
+    background: var(--verde-escuro);
+    color: var(--branco);
+    padding: 20px 0;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--verde-claro);
+    animation: pulse 2s infinite;
+}
+
+.status-dot.offline {
+    background: var(--vermelho);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .right-panel {
+        position: relative;
+        top: 0;
+    }
+    
+    .info-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 1.8rem;
+    }
+    
+    .icon {
+        font-size: 2rem;
+    }
+    
+    .nivel-value {
+        font-size: 3rem;
+    }
+    
+    .trash-container {
+        height: 400px;
+    }
+}
+
+/* ========================================
+   ANIMAÇÕES E EFEITOS EXTRAS
+   ======================================== */
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+@keyframes pulse-card {
+    0%, 100% {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 8px 24px rgba(244, 67, 54, 0.3);
+        transform: scale(1.01);
+    }
+}
+
+/* Efeito de scan/radar */
+.status-card.scanning::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(76, 175, 80, 0.2),
+        transparent
+    );
+    animation: scan 2s ease-in-out;
+}
+
+@keyframes scan {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Efeito de piscada para alertas críticos */
+.status-badge.critico {
+    animation: blink-badge 1s infinite;
+}
+
+@keyframes blink-badge {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
